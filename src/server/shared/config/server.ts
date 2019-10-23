@@ -7,7 +7,7 @@ const portStr = AS_PORT ?? '8443';
 const port = parseInt(portStr,10);
 
 
-export const SERVER_Config = {
+export const SERVER_CONFIG = {
     host,
     port,
     key: readFileSync(resolve(__dirname, 'key.pem')),
