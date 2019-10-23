@@ -69,3 +69,34 @@ export const connectDB = async () =>{
     );
     connection.on('error', () => logger.error(`Fehlerhafte DB-Verbindung`));
 };
+
+//in Produktion auf false setzen
+export const autoIndex = true;
+
+//erstellen einer Variable die auf das Download bzw. Upload Verzeichnis zeigt
+const temp = `temp`;
+export const uploadDir = join(__dirname, '..', '..', '..',temp , 'upload' );
+logger.debug(`Upload-Verzeichnis: ${uploadDir}`);
+export const downloadDir = join(__dirname, '..', '..', '..', temp, 'download');
+logger.debug(`Download-Verzeichnis ${downloadDir}`);
+
+export const optimistic = (schema: mongoose.Schema) => {
+    schema.pre('findOneAndUpdate', function() {
+        const update = this.getUpdate();
+        if(update.__v !== null){
+            delete update.__v;
+        }
+        const keys = [`$set`, `$setOnInsert`];
+        for( const key of keys){
+            if(update[key]?.__v !==null) {
+                if(Object.keys(update[key]).length ===0 ){
+                    delete update[key];
+                }
+            }
+        }
+
+        update.$inc = update.$inc || {};
+        update.$inc.__v = 1;
+    });
+}
+ 
