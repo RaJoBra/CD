@@ -55,6 +55,17 @@ export const connectDB = async () =>{
     try {
         await mongoose.connect(url, options);
     } catch ( err ){
-        logger.error(`${stringify(err)}`)
-    }
-}
+        logger.error(`${stringify(err)}`);
+        logger.error(`FEHLER beim Aufbau der DB-Verbindung ${err.message}\n`);
+        process.exit(0);
+    } 
+    logger.info(`DB-Verbindung zu ${connection.db.databaseName} ist aufgebaut`);
+
+    connection.on(`disconnecting`, () =>
+        logger.warn(`DB-Verbindung wir geschlossen...`),
+    );
+    connection.on(`disconnected`, () =>
+        logger.warn('DB-Verbindung ist geschlossen.'),
+    );
+    connection.on('error', () => logger.error(`Fehlerhafte DB-Verbindung`));
+};
