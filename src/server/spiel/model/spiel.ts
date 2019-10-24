@@ -28,7 +28,7 @@ export const schema = new Schema (
 
 schema.plugin(optimistic);
 
-export const Buch = model('Buch', schema);
+export const Spiel = model('Buch', schema);
 
 const isPresent = (obj: string | undefined ) =>
     obj !== undefined && obj !== null;
