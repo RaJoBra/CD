@@ -3,8 +3,8 @@ import {
     SpielMultimediaService,
     SpielNotExistsError,
     SpielService,
-    TitleExistsError,
-    VersionsInvalidError,
+    TitelExistsError,
+    VersionInvalidError,
 } from '../service';
 import { HttpStatus, MIME_CONFIG, getBaseUri, logger} from '../../shared';
 import { Request, Response} from 'express';
